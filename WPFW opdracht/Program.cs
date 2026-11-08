@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WPFW_opdracht.Data;
+using WPFW_opdracht.Services;
 namespace WPFW_opdracht;
 
 public class Program
@@ -11,6 +12,8 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
+
+        builder.Services.AddScoped<IProjectService, ProjectService>();
 
         builder.Services.AddSwaggerGen();
 
