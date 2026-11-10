@@ -8,9 +8,9 @@ namespace WPFW_opdracht.Controllers;
 [ApiController]
 public class BlogPostsController : ControllerBase
 {
-    private readonly IBlogPost _service;
+    private readonly IBlogPostService _service;
 
-    public BlogPostsController(IBlogPost service)
+    public BlogPostsController(IBlogPostService service)
     {
         _service = service;
     }

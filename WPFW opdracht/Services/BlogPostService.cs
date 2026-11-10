@@ -5,7 +5,7 @@ using WPFW_opdracht.Dtos;
 
 namespace WPFW_opdracht.Services;
 
-public class BlogPostService : IBlogPost
+public class BlogPostService : IBlogPostService
 {
     private readonly PortfolioDb _db;
 

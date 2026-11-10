@@ -2,7 +2,7 @@ using WPFW_opdracht.Dtos;
 
 namespace WPFW_opdracht.Services;
 
-public interface IBlogPost
+public interface IBlogPostService
 {
     Task<List<BlogPostResponse>> GetAllAsync();
     Task<BlogPostResponse?> GetByIdAsync(int id);

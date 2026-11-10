@@ -14,7 +14,7 @@ public class Program
         builder.Services.AddControllers();
 
         builder.Services.AddScoped<IProjectService, ProjectService>();
-        builder.Services.AddScoped<IBlogPost, BlogPostService>();
+        builder.Services.AddScoped<IBlogPostService, BlogPostService>();
 
         builder.Services.AddSwaggerGen();
 
