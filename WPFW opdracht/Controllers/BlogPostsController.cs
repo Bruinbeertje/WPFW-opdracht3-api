@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WPFW_opdracht.Dtos;
 using WPFW_opdracht.Services;
@@ -6,6 +7,7 @@ namespace WPFW_opdracht.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Policy = "CanEdit")] // de standaard policy, tenzij anders vermeld bij de request
 public class BlogPostsController : ControllerBase
 {
     private readonly IBlogPostService _service;
@@ -16,6 +18,7 @@ public class BlogPostsController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous] // uitzondering
     public async Task<ActionResult<List<BlogPostResponse>>> GetAll()
     {
         var blogPosts = await _service.GetAllAsync();
@@ -23,6 +26,7 @@ public class BlogPostsController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous] // uitzondering
     public async Task<ActionResult<BlogPostResponse>> GetById(int id)
     {
         var blogPost = await _service.GetByIdAsync(id);

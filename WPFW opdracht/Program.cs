@@ -7,7 +7,7 @@ namespace WPFW_opdracht;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +20,9 @@ public class Program
 
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddAuthorizationBuilder()
+            .AddPolicy("CanEdit", policy => policy.RequireRole("Editor", "Admin"));  //betekent: de CanEdit policy kan alleen uitgevoerd worden door een user met de rol Editor of Admin
+
         builder.Services.AddDbContext<PortfolioDb>(options =>
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -31,12 +34,24 @@ public class Program
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        using (var scope = app.Services.CreateScope())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            var db = scope.ServiceProvider.GetRequiredService<PortfolioDb>();
+            await db.Database.MigrateAsync(); // database bijwerken voor testen
+
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            foreach (var role in new[] { "User", "Editor", "Admin" })
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
         }
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
         app.UseHttpsRedirection();
 

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WPFW_opdracht.Services;
 using WPFW_opdracht.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WPFW_opdracht.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Policy = "CanEdit")] // de standaard policy, tenzij anders vermeld bij de request
 public class ProjectsController : ControllerBase
 {
     private readonly IProjectService _service;
@@ -15,12 +17,14 @@ public class ProjectsController : ControllerBase
         _service = service;
     }
     [HttpGet]
+    [AllowAnonymous] // uitzondering
     public async Task<ActionResult<List<ProjectResponse>>> GetAll()
     {
         var projects = await _service.GetAllAsync();
         return Ok(projects);
     }
     [HttpGet("{id:int}")]
+    [AllowAnonymous] // uitzondering
     public async Task<ActionResult<ProjectResponse>> GetById(int id)
     {
         var project = await _service.GetByIdAsync(id);
