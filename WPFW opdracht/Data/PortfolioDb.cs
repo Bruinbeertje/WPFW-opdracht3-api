@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace WPFW_opdracht.Data;
 using WPFW_opdracht.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class PortfolioDb : DbContext
+namespace WPFW_opdracht.Data;
+
+
+public class PortfolioDb :IdentityDbContext<User>
 {
     public PortfolioDb(DbContextOptions<PortfolioDb> options) : base(options) { }
 

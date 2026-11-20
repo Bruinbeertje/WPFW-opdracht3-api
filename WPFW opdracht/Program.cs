@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using WPFW_opdracht.Data.Entities;
 using WPFW_opdracht.Data;
 using WPFW_opdracht.Services;
 namespace WPFW_opdracht;
@@ -23,6 +25,10 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        builder.Services.AddIdentityApiEndpoints<User>() // Identity & cookie
+            .AddRoles<IdentityRole>() // Rollen aanzetten
+            .AddEntityFrameworkStores<PortfolioDb>(); // opslaan in de database
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -34,7 +40,8 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseAuthentication(); // wie ben je
+        app.UseAuthorization(); // mag je dit doen
 
 
         app.MapControllers();
