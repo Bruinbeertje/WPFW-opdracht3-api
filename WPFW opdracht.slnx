@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="WPFW opdracht/WPFW opdracht.csproj" />
+  <Project Path="WPFW.Tests/WPFW.Tests.csproj" Id="6cca9d91-3bd4-4569-93eb-74d8bc26a7d4" />
 </Solution>
