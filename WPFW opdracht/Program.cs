@@ -17,6 +17,7 @@ public class Program
 
         builder.Services.AddScoped<IProjectService, ProjectService>();
         builder.Services.AddScoped<IBlogPostService, BlogPostService>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
 
         builder.Services.AddSwaggerGen();
 
@@ -40,7 +41,7 @@ public class Program
             await db.Database.MigrateAsync(); // database bijwerken voor testen
 
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            foreach (var role in new[] { "User", "Editor", "Admin" })
+            foreach (var role in new[] { "Gast", "Editor", "Admin" })
             {
                 if (!await roleManager.RoleExistsAsync(role))
                     await roleManager.CreateAsync(new IdentityRole(role));
